@@ -44,7 +44,7 @@ const Input: React.FC<InputProps> = ({
       return textareaRef
     }
     return inputRef
-  }, [])
+  }, [type])
 
   useEffect(() => {
     const controlRef = getRef()
