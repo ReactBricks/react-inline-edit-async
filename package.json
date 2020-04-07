@@ -1,0 +1,58 @@
+{
+  "name": "react-inline-edit-async",
+  "version": "0.1.0",
+  "author": "Matteo Frana <f2@f2.net>",
+  "description": "React component for inline edit of text/select values, expecting an async (promise) onChange method",
+  "keywords": ["react inline edit", "react edit", "react", "inline", "edit"],
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ReactBricks/react-inline-edit-async.git"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "module": "dist/react-inline-edit-async.esm.js",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
+    "husky": "^4.2.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tsdx": "^0.13.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@xstate/react": "^0.8.1",
+    "xstate": "^4.8.0"
+  }
+}
