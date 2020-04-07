@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useRef } from 'react'
 import InputType from './inputType'
 
@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const selectRef = useRef<HTMLSelectElement>(null)
 
-  const getRef = () => {
+  const getRef = useCallback(() => {
     if (type === InputType.Select) {
       return selectRef
     }
@@ -44,7 +44,7 @@ const Input: React.FC<InputProps> = ({
       return textareaRef
     }
     return inputRef
-  }
+  }, [])
 
   useEffect(() => {
     const controlRef = getRef()
