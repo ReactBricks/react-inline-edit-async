@@ -61,7 +61,7 @@ const Input: React.FC<InputProps> = ({
         }
       }, 10)
     }
-  }, [])
+  }, [getRef])
 
   //==========================
   // Select
