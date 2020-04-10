@@ -1,6 +1,6 @@
 {
   "name": "react-inline-edit-async",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Matteo Frana <f2@f2.net>",
   "description": "React component for inline edit of text/select values, expecting an async (promise) onChange method",
   "keywords": ["react inline edit", "react edit", "react", "inline", "edit"],
