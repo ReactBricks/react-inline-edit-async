@@ -64,8 +64,14 @@ const getInlineEditMachine = ({
           on: {
             CHANGE: { target: 'edit', actions: 'change' },
             ESC: 'view',
-            ENTER: [{ target: 'loading', cond: 'shouldCommit' }, { target: 'view' }],
-            BLUR: [{ target: 'loading', cond: 'shouldCommit' }, { target: 'view' }],
+            ENTER: [
+              { target: 'loading', cond: 'shouldCommit' },
+              { target: 'view' },
+            ],
+            BLUR: [
+              { target: 'loading', cond: 'shouldCommit' },
+              { target: 'view' },
+            ],
           },
         },
         loading: {
@@ -101,7 +107,8 @@ const getInlineEditMachine = ({
             : () => {},
       },
       guards: {
-        shouldCommit: context => context.isValid && context.newValue !== context.value,
+        shouldCommit: context =>
+          context.isValid && context.newValue !== context.value,
         isEnabled: context => !context.isDisabled,
         canEditWhileLoading: context =>
           !context.isDisabled && context.allowEditWhileLoading,
