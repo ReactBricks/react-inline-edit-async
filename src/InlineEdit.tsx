@@ -11,6 +11,7 @@ interface InlineEditProps {
   validate?: (value: string) => boolean
   isDisabled?: boolean
   allowEditWhileLoading?: boolean
+  optimisticUpdate?: boolean
   viewClass?: string
   editClass?: string
   disabledClass?: string
@@ -33,6 +34,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   validate,
   isDisabled = false,
   allowEditWhileLoading = false,
+  optimisticUpdate = true,
   viewClass,
   editProps,
   editClass,
@@ -53,6 +55,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
       value,
       isDisabled,
       allowEditWhileLoading,
+      optimisticUpdate,
       validate,
       onChange,
     })

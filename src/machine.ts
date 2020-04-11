@@ -28,6 +28,7 @@ interface InlineEditMachineProps {
   value: string
   isDisabled: boolean
   allowEditWhileLoading: boolean
+  optimisticUpdate: boolean
   validate?: (value: string) => boolean
   onChange: (value: string) => Promise<any>
 }
@@ -36,6 +37,7 @@ const getInlineEditMachine = ({
   value,
   isDisabled,
   allowEditWhileLoading,
+  optimisticUpdate,
   validate,
   onChange,
 }: InlineEditMachineProps) =>
@@ -78,7 +80,7 @@ const getInlineEditMachine = ({
           invoke: {
             id: 'commitChange',
             src: 'commitChange',
-            onDone: { target: 'view', actions: 'commit' },
+            onDone: { target: 'view', actions: optimisticUpdate ? 'optimisticUpdate' : '' },
             onError: { target: 'view' },
           },
           on: {
@@ -96,7 +98,7 @@ const getInlineEditMachine = ({
         reset: assign({
           newValue: context => context.value,
         }),
-        commit: assign({
+        optimisticUpdate: assign({
           value: context => context.newValue,
         }),
         validate:
