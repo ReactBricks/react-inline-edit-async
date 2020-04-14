@@ -9,10 +9,17 @@ interface InlineEditProps {
   value: string
   onChange: (value: string) => void
   type?: InputType
+  format?: (value: string) => string
   validate?: (value: string) => boolean
   isDisabled?: boolean
   allowEditWhileLoading?: boolean
   optimisticUpdate?: boolean
+  saveTimeout?: number
+  savedDuration?: number
+  errorDuration?: number
+  editProps?: {
+    [key: string]: any
+  }
   viewClass?: string
   editClass?: string
   disabledClass?: string
@@ -20,43 +27,36 @@ interface InlineEditProps {
   invalidClass?: string
   savedClass?: string
   errorClass?: string
-  editProps?: {
-    [key: string]: any
-  }
-  format?: (value: string) => string
   showNewLines?: boolean
   options?: any[]
   valueKey?: string
   labelKey?: string
-  saveTimeout?: number
-  savedDuration?: number
-  errorDuration?: number
 }
 
 const InlineEdit: React.FC<InlineEditProps> = ({
   value,
   onChange,
   type = InputType.Text,
+  format,
   validate,
   isDisabled = false,
   allowEditWhileLoading = false,
   optimisticUpdate = true,
-  viewClass,
+  saveTimeout = 2000,
+  savedDuration = 700,
+  errorDuration = 1000,
   editProps,
+  viewClass,
   editClass,
   disabledClass,
   loadingClass,
   invalidClass,
   savedClass,
   errorClass,
-  format,
   showNewLines = true,
   options = [],
   valueKey = 'value',
   labelKey = 'label',
-  saveTimeout = 2000,
-  savedDuration = 700,
-  errorDuration = 1000,
 }) => {
   //==========================
   // XState Machine

@@ -1,9 +1,9 @@
 enum InputType {
   Text = 'text',
   Number = 'number',
-  Date = 'date',
-  Password = 'password',
   Email = 'email',
+  Password = 'password',
+  Date = 'date',
   Range = 'range',
   TextArea = 'textarea',
   Select = 'select',
