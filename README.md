@@ -47,7 +47,8 @@ RIEC is a controlled component. Only two props are mandatory:
 
 ### Why a string value
 
-The `value` should be always a string, because anyway you would receive back a string from a React input component, so I think it's better to do any casting before setting the value. If you send in a number, you will receive back a string.
+The `value` should be always a string, because anyway you would receive back a string from a React input component, so I think it's better to do any casting before setting the value.
+
 For the `select` input type is really important that the provided `value` (and the key corresponding to the `valueKey` are strings to enable pre-selecting the correct option.)
 
 ## A more complex example
