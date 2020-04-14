@@ -248,5 +248,11 @@ RIEC props may be split into 3 categories:
 - `options`:
   - `Array` of objects to populate the select input `options`.
   - If `valueKey` and `labelKey` are not set, it should have a key with name `value` used for values and a key with name `label` used to show labels in the select input
-  - `valueKey`: the name of the object key containing the values
-  - `labelKey`: the name of the object key containing the labels
+- `valueKey`: 
+  - the name of the object key containing the values
+  - Optional
+  - Default: `'value'`
+- `labelKey`: 
+  - the name of the object key containing the labels
+  - Optional
+  - Default: `'label'`
