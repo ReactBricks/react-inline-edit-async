@@ -130,7 +130,7 @@ RIEC props may be split into 3 categories:
 - `type`:
 
   - The input type to be displayed one of `text`, `number`, `email`, `password`, `date`, `range`, `textarea`, `select`.
-  - You can reference the value by using the exported `InputType` enum (working for JavaScript, too)
+  - You can reference the type by using the exported `InputType` enum: `InputType.Text`, `InputType.Number`, `InputType.Email`, `InputType.Password`, `InputType.Date`, `InputType.Range`, `InputType.TextArea`, `InputType.Select`
   - Optional
   - Default: `text`
 
