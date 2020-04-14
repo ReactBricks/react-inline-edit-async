@@ -91,7 +91,7 @@ interface InlineEditProps {
 }
 ```
 
-where `InputType` is an `enum` representing all the input types provided by RIEC.
+The `InputType` is an `enum` representing all the input types provided by RIEC.
 
 ```ts
 enum InputType {
@@ -108,7 +108,7 @@ enum InputType {
 
 ## Details of each prop
 
-RIEC props may be split in 3 categories:
+RIEC props may be split into 3 categories:
 
 - **Main props** (such as the validation function)
 - **CSS classes props** (such as the CSS class to apply while loading)
