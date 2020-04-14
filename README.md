@@ -18,9 +18,7 @@ $ yarn add riec
 
 ### Minimal example
 
-Here you can see a minimal example.
-
-RIEC is a controlled component.
+Here you can see a minimal example:
 
 ```jsx
 import React, { useState } from 'react'
@@ -42,7 +40,7 @@ const App = () => {
 }
 ```
 
-Of the over 20 props you can use, only 2 are mandatory:
+RIEC is a controlled component. Only two props are mandatory:
 
 - `value`: a `string` representing the initial value, updated by the onChange function
 - `onChange`: a function of value, which is supposed to update value upon success
