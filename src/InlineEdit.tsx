@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect, useRef } from 'react'
 import { useMachine } from '@xstate/react'
 import getInlineEditMachine from './machine'
 import Input from './Input'
@@ -6,7 +7,7 @@ import InputType from './inputType'
 
 interface InlineEditProps {
   value: string
-  onChange: (value: string) => Promise<any>
+  onChange: (value: string) => void
   type?: InputType
   validate?: (value: string) => boolean
   isDisabled?: boolean
@@ -17,6 +18,8 @@ interface InlineEditProps {
   disabledClass?: string
   loadingClass?: string
   invalidClass?: string
+  savedClass?: string
+  errorClass?: string
   editProps?: {
     [key: string]: any
   }
@@ -25,6 +28,9 @@ interface InlineEditProps {
   options?: any[]
   valueKey?: string
   labelKey?: string
+  saveTimeout?: number
+  savedDuration?: number
+  errorDuration?: number
 }
 
 const InlineEdit: React.FC<InlineEditProps> = ({
@@ -41,11 +47,16 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   disabledClass,
   loadingClass,
   invalidClass,
+  savedClass,
+  errorClass,
   format,
   showNewLines = true,
   options = [],
   valueKey = 'value',
   labelKey = 'label',
+  saveTimeout = 2000,
+  savedDuration = 700,
+  errorDuration = 1000,
 }) => {
   //==========================
   // XState Machine
@@ -58,8 +69,28 @@ const InlineEdit: React.FC<InlineEditProps> = ({
       optimisticUpdate,
       validate,
       onChange,
+      saveTimeout,
+      savedDuration,
+      errorDuration,
     })
   )
+
+  //==========================
+  // Send SAVED event when a
+  // new value is received
+  // =========================
+  const isFirstRun = useRef(true)
+
+  useEffect(() => {
+    // Prevent triggering SAVED
+    // on first render
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
+    // Trigger it on value changes
+    send({ type: 'SAVED', value })
+  }, [value])
 
   //==========================
   // Event Handlers
@@ -93,6 +124,12 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   }
   if (loadingClass && current.value === 'loading') {
     viewClassNames.push(loadingClass)
+  }
+  if (savedClass && current.value === 'saved') {
+    viewClassNames.push(savedClass)
+  }
+  if (errorClass && current.value === 'error') {
+    viewClassNames.push(errorClass)
   }
   if (disabledClass && isDisabled) {
     viewClassNames.push(disabledClass)
@@ -151,7 +188,10 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   // =========================
   return (
     <div>
-      {(current.value === 'view' || current.value === 'loading') && (
+      {(current.value === 'view' ||
+        current.value === 'loading' ||
+        current.value === 'saved' ||
+        current.value === 'error') && (
         <span
           {...viewClassProp}
           onClick={() => send('CLICK')}

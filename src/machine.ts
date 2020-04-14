@@ -5,6 +5,8 @@ interface InlineEditState {
     view: {}
     edit: {}
     loading: {}
+    saved: {}
+    error: {}
   }
 }
 
@@ -15,22 +17,25 @@ type InlineEditEvent =
   | { type: 'ESC'; value: string }
   | { type: 'ENTER'; value: string }
   | { type: 'BLUR'; value: string }
+  | { type: 'SAVED'; value: string }
 
 interface InlineEditContext {
   value: string
   newValue: string
-  isDisabled: boolean
-  allowEditWhileLoading: boolean
+  oldValue: string
   isValid: boolean
 }
 
 interface InlineEditMachineProps {
   value: string
+  onChange: (value: string) => void
   isDisabled: boolean
   allowEditWhileLoading: boolean
   optimisticUpdate: boolean
   validate?: (value: string) => boolean
-  onChange: (value: string) => Promise<any>
+  saveTimeout: number
+  savedDuration: number
+  errorDuration: number
 }
 
 const getInlineEditMachine = ({
@@ -40,6 +45,9 @@ const getInlineEditMachine = ({
   optimisticUpdate,
   validate,
   onChange,
+  saveTimeout,
+  savedDuration,
+  errorDuration
 }: InlineEditMachineProps) =>
   Machine<InlineEditContext, InlineEditState, InlineEditEvent>(
     {
@@ -48,8 +56,7 @@ const getInlineEditMachine = ({
       context: {
         value,
         newValue: '',
-        isDisabled,
-        allowEditWhileLoading,
+        oldValue: '',
         isValid:
           validate && typeof validate === 'function' ? validate(value) : true,
       },
@@ -59,6 +66,7 @@ const getInlineEditMachine = ({
           on: {
             CLICK: { target: 'edit', cond: 'isEnabled' },
             FOCUS: { target: 'edit', cond: 'isEnabled' },
+            SAVED: { target: 'saved', actions: 'commitChange' }
           },
         },
         edit: {
@@ -67,27 +75,46 @@ const getInlineEditMachine = ({
             CHANGE: { target: 'edit', actions: 'change' },
             ESC: 'view',
             ENTER: [
-              { target: 'loading', cond: 'shouldCommit' },
+              { target: 'loading', cond: 'shouldSend' },
               { target: 'view' },
             ],
             BLUR: [
-              { target: 'loading', cond: 'shouldCommit' },
+              { target: 'loading', cond: 'shouldSend' },
               { target: 'view' },
             ],
           },
         },
         loading: {
-          invoke: {
-            id: 'commitChange',
-            src: 'commitChange',
-            onDone: { target: 'view', actions: optimisticUpdate ? 'optimisticUpdate' : '' },
-            onError: { target: 'view' },
-          },
+          entry: [optimisticUpdate ? 'optimisticUpdate': 'noAction', 'sendChange'],
           on: {
             CLICK: { target: 'edit', cond: 'canEditWhileLoading' },
             FOCUS: { target: 'edit', cond: 'canEditWhileLoading' },
+            SAVED: { target: 'saved', actions: 'commitChange' }
           },
+          after: {
+            SAVE_TIMEOUT: { target: 'error', actions: 'cancelChange' }
+          }
         },
+        saved: {
+          on: {
+            CLICK: { target: 'edit', cond: 'isEnabled' },
+            FOCUS: { target: 'edit', cond: 'isEnabled' },
+            SAVED: { target: 'saved', actions: 'commitChange' }
+          },
+          after: {
+            SAVED_DURATION: { target: 'view' }
+          }
+        },
+        error: {
+          on: {
+            CLICK: { target: 'edit', cond: 'isEnabled' },
+            FOCUS: { target: 'edit', cond: 'isEnabled' },
+            SAVED: { target: 'saved', actions: 'commitChange' }
+          },
+          after: {
+            ERROR_DURATION: { target: 'view' }
+          }
+        }
       },
     },
     {
@@ -99,7 +126,18 @@ const getInlineEditMachine = ({
           newValue: context => context.value,
         }),
         optimisticUpdate: assign({
+          oldValue: context => context.value,
           value: context => context.newValue,
+        }),
+        noAction: () => { },
+        sendChange: (context: InlineEditContext) => {
+          onChange(context.newValue)
+        },
+        commitChange: assign({
+          value: (_, event) => event.value,
+        }),
+        cancelChange: assign({
+          value: context => context.oldValue,
         }),
         validate:
           validate && typeof validate === 'function'
@@ -109,17 +147,17 @@ const getInlineEditMachine = ({
             : () => {},
       },
       guards: {
-        shouldCommit: context =>
+        shouldSend: context =>
           context.isValid && context.newValue !== context.value,
-        isEnabled: context => !context.isDisabled,
-        canEditWhileLoading: context =>
-          !context.isDisabled && context.allowEditWhileLoading,
+        isEnabled: () => !isDisabled,
+        canEditWhileLoading: () =>
+          !isDisabled && allowEditWhileLoading,
       },
-      services: {
-        commitChange: context => {
-          return onChange(context.newValue)
-        },
-      },
+      delays: {
+        SAVE_TIMEOUT: saveTimeout,
+        SAVED_DURATION: savedDuration,
+        ERROR_DURATION: errorDuration
+      }
     }
   )
 
