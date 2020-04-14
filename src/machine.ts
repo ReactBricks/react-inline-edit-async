@@ -47,7 +47,7 @@ const getInlineEditMachine = ({
   onChange,
   saveTimeout,
   savedDuration,
-  errorDuration
+  errorDuration,
 }: InlineEditMachineProps) =>
   Machine<InlineEditContext, InlineEditState, InlineEditEvent>(
     {
@@ -66,7 +66,7 @@ const getInlineEditMachine = ({
           on: {
             CLICK: { target: 'edit', cond: 'isEnabled' },
             FOCUS: { target: 'edit', cond: 'isEnabled' },
-            SAVED: { target: 'saved', actions: 'commitChange' }
+            SAVED: { target: 'saved', actions: 'commitChange' },
           },
         },
         edit: {
@@ -85,36 +85,39 @@ const getInlineEditMachine = ({
           },
         },
         loading: {
-          entry: [optimisticUpdate ? 'optimisticUpdate': 'noAction', 'sendChange'],
+          entry: [
+            optimisticUpdate ? 'optimisticUpdate' : 'noAction',
+            'sendChange',
+          ],
           on: {
             CLICK: { target: 'edit', cond: 'canEditWhileLoading' },
             FOCUS: { target: 'edit', cond: 'canEditWhileLoading' },
-            SAVED: { target: 'saved', actions: 'commitChange' }
+            SAVED: { target: 'saved', actions: 'commitChange' },
           },
           after: {
-            SAVE_TIMEOUT: { target: 'error', actions: 'cancelChange' }
-          }
+            SAVE_TIMEOUT: { target: 'error', actions: 'cancelChange' },
+          },
         },
         saved: {
           on: {
             CLICK: { target: 'edit', cond: 'isEnabled' },
             FOCUS: { target: 'edit', cond: 'isEnabled' },
-            SAVED: { target: 'saved', actions: 'commitChange' }
+            SAVED: { target: 'saved', actions: 'commitChange' },
           },
           after: {
-            SAVED_DURATION: { target: 'view' }
-          }
+            SAVED_DURATION: { target: 'view' },
+          },
         },
         error: {
           on: {
             CLICK: { target: 'edit', cond: 'isEnabled' },
             FOCUS: { target: 'edit', cond: 'isEnabled' },
-            SAVED: { target: 'saved', actions: 'commitChange' }
+            SAVED: { target: 'saved', actions: 'commitChange' },
           },
           after: {
-            ERROR_DURATION: { target: 'view' }
-          }
-        }
+            ERROR_DURATION: { target: 'view' },
+          },
+        },
       },
     },
     {
@@ -129,7 +132,7 @@ const getInlineEditMachine = ({
           oldValue: context => context.value,
           value: context => context.newValue,
         }),
-        noAction: () => { },
+        noAction: () => {},
         sendChange: (context: InlineEditContext) => {
           onChange(context.newValue)
         },
@@ -150,14 +153,13 @@ const getInlineEditMachine = ({
         shouldSend: context =>
           context.isValid && context.newValue !== context.value,
         isEnabled: () => !isDisabled,
-        canEditWhileLoading: () =>
-          !isDisabled && allowEditWhileLoading,
+        canEditWhileLoading: () => !isDisabled && allowEditWhileLoading,
       },
       delays: {
         SAVE_TIMEOUT: saveTimeout,
         SAVED_DURATION: savedDuration,
-        ERROR_DURATION: errorDuration
-      }
+        ERROR_DURATION: errorDuration,
+      },
     }
   )
 
