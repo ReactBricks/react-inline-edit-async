@@ -51,15 +51,16 @@ The `value` should be always a string, because anyway you would receive back a s
 
 For the `select` input type is really important that the provided `value` (and the key corresponding to the `valueKey` are strings to enable pre-selecting the correct option.)
 
-## A more complex example
+### A more complex example
+Soon available on CodeSandbox...
 
 # API
 
 RIEC exposes just one component (`InlineEditProps`) and the "enum" object `InputType`.
 
-## InlineEdit and InputType
+## TypeScript interface
 
-I think that it's useful to see the TypeScript interface of the InlineEdit component, even if you don't use TypeScript.
+I think that it's useful to see the TypeScript interfaces, even if you don't use TypeScript, because they are very clear and concise.
 
 ```ts
 interface InlineEditProps {
