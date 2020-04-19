@@ -95,7 +95,10 @@ const getInlineEditMachine = ({
             SAVED: { target: 'saved', actions: 'commitChange' },
           },
           after: {
-            SAVE_TIMEOUT: { target: 'error', actions: 'cancelChange' },
+            SAVE_TIMEOUT: {
+              target: 'error',
+              actions: optimisticUpdate ? 'cancelChange' : 'noAction',
+            },
           },
         },
         saved: {

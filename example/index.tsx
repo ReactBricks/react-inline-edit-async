@@ -42,6 +42,7 @@ const App = () => {
         onChange={onChange}
         viewClass="styled"
         allowEditWhileLoading
+        optimisticUpdate={true}
       />
       <InlineEdit
         value="disabled"
