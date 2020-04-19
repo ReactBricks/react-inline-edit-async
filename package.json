@@ -1,13 +1,19 @@
 {
-  "name": "react-inline-edit-async",
-  "version": "0.1.3",
+  "name": "riec",
+  "version": "0.1.4",
   "author": "Matteo Frana <f2@f2.net>",
-  "description": "React component for inline edit of text/select values, expecting an async (promise) onChange method",
-  "keywords": ["react inline edit", "react edit", "react", "inline", "edit"],
+  "description": "Modern React component for inline edit of text/select values, written in Typescript",
+  "keywords": [
+    "react inline edit",
+    "react edit",
+    "react",
+    "inline",
+    "edit"
+  ],
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ReactBricks/react-inline-edit-async.git"
+    "type": "git",
+    "url": "https://github.com/ReactBricks/react-inline-edit-async.git"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
