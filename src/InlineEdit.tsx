@@ -187,7 +187,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   // Render
   // =========================
   return (
-    <div>
+    <>
       {(current.value === 'view' ||
         current.value === 'loading' ||
         current.value === 'saved' ||
@@ -215,7 +215,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
           handleBlur={handleBlur}
         />
       )}
-    </div>
+    </>
   )
 }
 
