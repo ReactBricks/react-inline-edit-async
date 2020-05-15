@@ -36,68 +36,92 @@ const App = () => {
         }}
       />
 
-      <InlineEdit
-        value={value}
-        validate={validate}
-        onChange={onChange}
-        viewClass="styled"
-        allowEditWhileLoading
-        optimisticUpdate={true}
-      />
-      <InlineEdit
-        value="disabled"
-        validate={validate}
-        onChange={onChange}
-        isDisabled
-      />
-      <InlineEdit
-        value={value}
-        validate={validate}
-        onChange={onChange}
-        invalidClass="invalid"
-        loadingClass="loading"
-        savedClass="saved"
-        errorClass="error"
-        errorDuration={1200}
-        savedDuration={1200}
-      />
-      <InlineEdit
-        type={InputType.Number}
-        value="34"
-        validate={i => parseInt(i, 10) > 0}
-        onChange={onChange}
-        editProps={{ min: 10, max: 20, step: 2 }}
-        format={value => '€ ' + value}
-        loadingClass="loading"
-        saveTimeout={1200}
-      />
-      <InlineEdit
-        type={InputType.Date}
-        value="2020-03-12"
-        onChange={onChange}
-      />
-      <InlineEdit
-        type={InputType.Range}
-        value="6"
-        validate={i => parseInt(i, 10) > 3}
-        onChange={onChange}
-        editProps={{ min: 0, max: 10, step: 1 }}
-      />
-      <InlineEdit
-        type={InputType.TextArea}
-        value="pizza patatine"
-        onChange={onChange}
-        editProps={{ rows: 4 }}
-        format={v => v.toUpperCase()}
-      />
-      <InlineEdit
-        type={InputType.Select}
-        value="2"
-        onChange={onChange}
-        options={options}
-        valueKey="id"
-        labelKey="name"
-      />
+      <div>
+        <InlineEdit
+          value={value}
+          validate={validate}
+          onChange={onChange}
+          viewClass="styled"
+          allowEditWhileLoading
+          optimisticUpdate={true}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          value="disabled"
+          validate={validate}
+          onChange={onChange}
+          isDisabled
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          value={value}
+          validate={validate}
+          onChange={onChange}
+          invalidClass="invalid"
+          loadingClass="loading"
+          savedClass="saved"
+          errorClass="error"
+          errorDuration={1200}
+          savedDuration={1200}
+          render={v => <code>{v}<sup>2</sup></code>}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          type={InputType.Number}
+          value="34"
+          validate={i => parseInt(i, 10) > 0}
+          onChange={onChange}
+          editProps={{ min: 10, max: 20, step: 2 }}
+          format={value => '€ ' + value}
+          loadingClass="loading"
+          saveTimeout={1200}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          type={InputType.Date}
+          value="2020-03-12"
+          onChange={onChange}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          type={InputType.Range}
+          value="6"
+          validate={i => parseInt(i, 10) > 3}
+          onChange={onChange}
+          editProps={{ min: 0, max: 10, step: 1 }}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          type={InputType.TextArea}
+          value="pizza patatine"
+          onChange={onChange}
+          editProps={{ rows: 4 }}
+          format={v => v.toUpperCase()}
+        />
+      </div>
+
+      <div>
+        <InlineEdit
+          type={InputType.Select}
+          value="2"
+          onChange={onChange}
+          options={options}
+          valueKey="id"
+          labelKey="name"
+        />
+      </div>
     </div>
   )
 }

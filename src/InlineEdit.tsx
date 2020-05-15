@@ -10,6 +10,7 @@ interface InlineEditProps {
   onChange: (value: string) => void
   type?: InputType
   format?: (value: string) => string
+  render?: (value: string) => React.ReactElement
   validate?: (value: string) => boolean
   isDisabled?: boolean
   allowEditWhileLoading?: boolean
@@ -38,6 +39,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
   onChange,
   type = InputType.Text,
   format,
+  render,
   validate,
   isDisabled = false,
   allowEditWhileLoading = false,
@@ -198,7 +200,7 @@ const InlineEdit: React.FC<InlineEditProps> = ({
           onFocus={() => send('FOCUS')}
           tabIndex={0}
         >
-          {viewValue}
+          {render ? render(viewValue) : viewValue}
         </span>
       )}
       {current.value === 'edit' && (

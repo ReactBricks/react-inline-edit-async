@@ -1,6 +1,6 @@
 {
   "name": "riec",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "author": "Matteo Frana <f2@f2.net>",
   "description": "Modern React component for inline edit of text/select values, written in Typescript",
   "keywords": [
@@ -8,7 +8,8 @@
     "react edit",
     "react",
     "inline",
-    "edit"
+    "edit",
+    "riek"
   ],
   "license": "MIT",
   "repository": {
