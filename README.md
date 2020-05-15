@@ -68,6 +68,7 @@ interface InlineEditProps {
   onChange: (value: string) => void
   type?: InputType
   format?: (value: string) => string
+  render?: (value: string) => React.ReactElement
   validate?: (value: string) => boolean
   isDisabled?: boolean
   allowEditWhileLoading?: boolean
@@ -146,6 +147,12 @@ RIEC props may be split into 3 categories:
 - `format`:
 
   - A function to format the value. It receives the `value` string and should return the formatted string (for example for dates or money)
+  - Optional
+  - Default: none
+
+- `render`:
+
+  - A function to render a custom React element based on the value. It receives the `value` string and should return a React Element
   - Optional
   - Default: none
 
